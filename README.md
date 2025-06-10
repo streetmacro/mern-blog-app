@@ -1,4 +1,4 @@
-# Article Management System (Full-Stack TypeScript)
+# Article Management System 
 
 This is a full-stack application for managing articles, built with React, Node.js, Express, MongoDB, and TypeScript.
 
@@ -8,7 +8,6 @@ This is a full-stack application for managing articles, built with React, Node.j
 - CRUD operations for Articles.
 - CRUD operations for Comments on articles.
 - Protected routes for authenticated users.
-- Responsive design using Material-UI.
 - State management with Context API.
 - Client-side routing with React Router v6.
 
