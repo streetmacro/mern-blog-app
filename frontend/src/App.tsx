@@ -11,7 +11,7 @@ import ArticleEditPage from './pages/ArticleEditPage';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 
-//Основная тема Material-UI
+//Material-UI
 const theme = createTheme({
   palette: {
     primary: {
@@ -33,7 +33,6 @@ function AppContent() {
   const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
-//Здесь можно вернуть глобальный спиннер загрузки при необходимости
     return <div>Loading application...</div>;
   }
 
@@ -59,11 +58,14 @@ function AppContent() {
             path="/articles/:id/edit" 
             element={<ProtectedRoute element={<ArticleEditPage />} />} 
           />
-          
-          {/* Redirect to home if no route matches and user is authenticated, else to login */}
           <Route 
             path="*" 
-            element={isAuthenticated ? <Navigate replace to="/" /> : <Navigate replace to="/login" />} 
+            element={
+              <Navigate 
+                to={isAuthenticated ? "/" : "/login"} 
+                replace 
+              />
+            } 
           />
         </Routes>
       </Container>

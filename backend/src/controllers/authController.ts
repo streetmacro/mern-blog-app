@@ -13,7 +13,7 @@ const generateToken = (id: string): string => {
 export const registerUser = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password, confirmPassword } = req.body;
 
-  //Базовая валидация (можно использовать express-validator для более надежной валидации)
+  //валидация 
   if (!email || !password || !confirmPassword) {
     return res.status(400).json({ message: 'Please provide email, password, and confirm password' });
   }

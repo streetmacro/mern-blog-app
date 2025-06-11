@@ -4,7 +4,6 @@ import api from '../services/api';
 interface User {
   id: string;
   email: string;
-  //Добавьте другие свойства пользователя при необходимости
 }
 
 interface AuthContextType {

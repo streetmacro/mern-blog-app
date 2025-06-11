@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 
 export interface IUser extends Document {
   email: string;
-  password?: string; //необязательное поле так как будет удалено в toJSON
+  password?: string; 
   articles: Schema.Types.ObjectId[];
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
@@ -21,7 +21,7 @@ const UserSchema: Schema<IUser> = new Schema(
       type: String,
       required: true,
       minlength: 6,
-      select: false, //Не возвращать пароль по умолчанию
+      select: false, 
     },
     articles: [
       {

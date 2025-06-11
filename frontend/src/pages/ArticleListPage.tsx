@@ -28,7 +28,7 @@ interface Article {
   content: string;
   author: ArticleAuthor;
   createdAt: string;
-  comments: string[]; //Предполагаем, что комментарии - это массив ID или упрощенное представление
+  comments: string[]; 
 }
 
 interface ArticlesApiResponse {
@@ -45,7 +45,7 @@ const ArticleListPage: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
 
-  const articlesPerPage = 6; //Или можно получать с API, если нужно динамическое значение
+  const articlesPerPage = 6; 
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -58,7 +58,7 @@ const ArticleListPage: React.FC = () => {
         setArticles(response.data.articles);
         setTotalPages(response.data.totalPages);
       } catch (err: any) {
-        setError(err.response?.data?.message || 'Не удалось загрузить статьи.');
+        setError(err.response?.data?.message || 'Failed to fetch articles.');
         console.error('Fetch articles error:', err);
       }
       setIsLoading(false);

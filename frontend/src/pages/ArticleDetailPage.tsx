@@ -33,7 +33,6 @@ interface Comment {
   text: string;
   author: CommentAuthor;
   createdAt: string;
-  // For editing state
   isEditing?: boolean;
   editText?: string;
 }
@@ -145,7 +144,7 @@ const ArticleDetailPage: React.FC = () => {
         setCommentError('Comment text cannot be empty for update.');
         return;
     }
-    setIsSubmittingComment(true); // Reuse for loading state
+    setIsSubmittingComment(true); 
     try {
         const response = await api.put<Comment>(`/comments/${commentId}`, { text: commentToUpdate.editText });
         setArticle(prev => prev ? {
@@ -162,7 +161,7 @@ const ArticleDetailPage: React.FC = () => {
 
   const handleDeleteComment = async (commentId: string) => {
     if (window.confirm('Are you sure you want to delete this comment?')) {
-        setIsSubmittingComment(true); // Reuse for loading state
+        setIsSubmittingComment(true); 
         try {
             await api.delete(`/comments/${commentId}`);
             setArticle(prev => prev ? {
@@ -288,35 +287,36 @@ const ArticleDetailPage: React.FC = () => {
                   <ListItemText
                     primaryTypographyProps={{ fontWeight: 'medium' }}
                     primary={comment.author?.email || 'Anonymous'}
-                    secondary=
-                        <>
+                    secondary={
+                      <React.Fragment>
                         {comment.isEditing ? (
-                            <Box component="div" sx={{width: '100%'}}>
-                                <TextField 
-                                    fullWidth 
-                                    multiline 
-                                    variant="standard" 
-                                    value={comment.editText} 
-                                    onChange={(e) => handleCommentEditChange(comment._id, e.target.value)}
-                                    sx={{mb:1}}
-                                />
-                                <Button size="small" onClick={() => handleUpdateComment(comment._id)} disabled={isSubmittingComment}>Save</Button>
-                                <Button size="small" onClick={() => toggleEditComment(comment._id)} disabled={isSubmittingComment}>Cancel</Button>
-                            </Box>
+                          <Box component="div" sx={{width: '100%'}}>
+                            <TextField 
+                              fullWidth 
+                              multiline 
+                              variant="standard" 
+                              value={comment.editText} 
+                              onChange={(e) => handleCommentEditChange(comment._id, e.target.value)}
+                              sx={{mb:1}}
+                            />
+                            <Button size="small" onClick={() => handleUpdateComment(comment._id)} disabled={isSubmittingComment}>Save</Button>
+                            <Button size="small" onClick={() => toggleEditComment(comment._id)} disabled={isSubmittingComment}>Cancel</Button>
+                          </Box>
                         ) : (
-                            <Typography
-                                component="span"
-                                variant="body2"
-                                color="text.primary"
-                                sx={{ whiteSpace: 'pre-wrap' }}
-                            >
-                                {comment.text}
-                            </Typography>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            color="text.primary"
+                            sx={{ whiteSpace: 'pre-wrap' }}
+                          >
+                            {comment.text}
+                          </Typography>
                         )}
                         <Typography component="span" variant="caption" color="text.secondary" display="block" sx={{mt: 0.5}}>
-                            {new Date(comment.createdAt).toLocaleString()}
+                          {new Date(comment.createdAt).toLocaleString()}
                         </Typography>
-                        </>
+                      </React.Fragment>
+                    }
                   />
                   {user && user.id === comment.author?._id && !comment.isEditing && (
                     <Box sx={{ml: 'auto'}}>

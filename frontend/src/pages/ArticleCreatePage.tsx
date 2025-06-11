@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { Container, Typography, TextField, Button, Box, Alert, CircularProgress, Paper } from '@mui/material';
+import { useAuth } from '../contexts/AuthContext';
 
 const ArticleCreatePage: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -10,6 +11,7 @@ const ArticleCreatePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [formErrors, setFormErrors] = useState<{ title?: string; content?: string }>({});
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const validateForm = (): boolean => {
     const errors: { title?: string; content?: string } = {};
@@ -28,17 +30,20 @@ const ArticleCreatePage: React.FC = () => {
     if (!validateForm()) {
       return;
     }
+    if (!user) {
+      setError('ERROR: user not found. Please log in.');
+      return;
+    }
     setIsLoading(true);
     setError(null);
     try {
-      const response = await api.post('/articles', { title, content });
-      navigate(`/articles/${response.data._id}`); // Navigate to the newly created article
+      const response = await api.post('/articles', { title, content, author: user.id });
+      navigate(`/articles/${response.data._id}`); 
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to create article.');
       console.error('Create article error:', err);
       setIsLoading(false);
     }
-    // No need to setIsLoading(false) here if navigation occurs on success
   };
 
   return (

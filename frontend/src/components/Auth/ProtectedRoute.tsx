@@ -12,7 +12,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
   const location = useLocation();
 
   if (isLoading) {
-    //Показываем спиннер загрузки при проверке аутентификации
+    //спиннер загрузки при проверке аутентификации
     return (
       <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
         <CircularProgress />
@@ -21,10 +21,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
   }
 
   if (!isAuthenticated) {
-    //Перенаправляем на страницу входа, сохраняя текущий URL
-    //Это позволит вернуть пользователя на запрошенную страницу после входа,
-    //что обеспечивает лучший пользовательский опыт,
-    //чем перенаправление на главную страницу
+    //отправка на страницу входа, сохраняя текущий URL
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 

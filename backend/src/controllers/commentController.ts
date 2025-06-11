@@ -91,9 +91,7 @@ export const updateComment = async (req: AuthenticatedRequest, res: Response, ne
   }
 };
 
-//@desc    Удаление комментария
-//@route   DELETE /api/comments/:id
-//@access  Приватный
+
 export const deleteComment = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   const commentId = req.params.id;
 
@@ -109,15 +107,11 @@ export const deleteComment = async (req: AuthenticatedRequest, res: Response, ne
     }
 
     if (!req.user || comment.author.toString() !== req.user.id) {
-      // Also allow article author to delete comments on their article - optional feature
-      // const article = await Article.findById(comment.article);
-      // if (!article || article.author.toString() !== req.user.id) {
-      //   return res.status(403).json({ message: 'User not authorized to delete this comment' });
-      // }
+
       return res.status(403).json({ message: 'User not authorized to delete this comment' });
     }
 
-    // Remove comment ID from article's comments array
+
     await Article.findByIdAndUpdate(comment.article, { $pull: { comments: comment._id } });
 
     await comment.deleteOne(); // Mongoose v6+ uses deleteOne()

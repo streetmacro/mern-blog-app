@@ -23,7 +23,7 @@ const RegisterPage: React.FC = () => {
     try {
       const response = await api.post('/auth/register', data);
       login(response.data.token, response.data.user);
-      navigate('/'); //Перенаправляем на главную после успешной регистрации
+      navigate('/'); //если регистрация успешно идес перенапрпвление
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.message) {
         setErrorMessage(error.response.data.message);

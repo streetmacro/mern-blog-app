@@ -3,7 +3,7 @@ import { Box, TextField, Button, Typography, Alert, CircularProgress } from '@mu
 
 interface AuthFormProps {
   formType: 'login' | 'register';
-  onSubmit: (data: any) => Promise<void>; //Сделать onSubmit асинхронным
+  onSubmit: (data: any) => Promise<void>; //async
   errorMessage?: string | null;
   isLoading: boolean;
 }
@@ -14,7 +14,8 @@ const AuthForm: React.FC<AuthFormProps> = ({ formType, onSubmit, errorMessage, i
   const [confirmPassword, setConfirmPassword] = useState('');
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
 
-  const validate = (): boolean => {
+  // Автовалидация при изменении полей
+  React.useEffect(() => {
     const errors: { [key: string]: string } = {};
     if (!email) errors.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(email)) errors.email = 'Email is invalid';
@@ -26,8 +27,13 @@ const AuthForm: React.FC<AuthFormProps> = ({ formType, onSubmit, errorMessage, i
       errors.confirmPassword = 'Passwords do not match';
     }
     setFormErrors(errors);
-    return Object.keys(errors).length === 0;
+  }, [email, password, confirmPassword, formType]);
+
+  const validate = (): boolean => {
+    // Просто возвращает результат валидации на основе текущих ошибок
+    return Object.keys(formErrors).length === 0;
   };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

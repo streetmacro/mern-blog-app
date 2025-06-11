@@ -8,7 +8,6 @@ import { protect } from '../middleware/authMiddleware';
 
 const router = Router();
 
-//Все операции с комментариями требуют аутентификации
 router.use(protect);
 
 router.post('/', addComment);
